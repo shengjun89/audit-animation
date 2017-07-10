@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			body {
+				background-color: #FFF;
+			}
+			
+			#loading {
+				width: 200px;
+				/*height: 100%;*/
+				margin-top: 60%;
+				margin-top: 320px;
+				margin: 20% auto;
+				/*background:yellow;*/
+			}
+			
+			#bottom {
+				width: 160px;
+				margin: 0 auto;
+			}
+			
+			#bottom #btn {
+				width: 120px
+				/*margin: auto 0;*/
+				margin-bottom: 120px;
+			}
+			
+			#title {
+				text-align: center;
+				/*margin-bottom: 40px;*/
+			}
+			
+			#title #numpro {
+				color: #C1ABAB;
+			}
+			
+			p {
+				text-align: center;
+				width: 160px;
+				font-size: 12px;
+				color: #bdbdbd;
+				margin: 0 auto;
+				margin-bottom: 40px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h4 style="text-align: center;color: #C0C0C0;">麦子借款demo</h4>
+		<div id="loading"></div>
+		<h4 id="title">借款额度评估中<span id="numpro">0</span>%</h4>
+		<p id="subtxt">过程可能需要10～20秒左右的时间，请耐心等待</p>
+		<!-- Scripts -->
+		<script src="js/bodymovin.js"></script>
+		<!--<script src="js/index.js"></script>-->
+		<script>
+			var animation = bodymovin.loadAnimation({
+				container: document.getElementById('loading'),
+				renderer: 'svg',
+				loop: true,
+				autoplay: true,
+				path: 'data_roop.json'
+			})
+
+			var o = document.getElementById("numpro");
+			var a = window.setInterval(function() {
+				if(o.innerHTML < 99) {
+					o.innerHTML = parseInt(o.innerHTML) + 1;
+				} else {
+					clearInterval(a)
+				}
+			}, 200)
+
+			function changePath() {
+				document.getElementById('loading').innerHTML = '';
+				animation = bodymovin.loadAnimation({
+					container: document.getElementById('loading'),
+					renderer: 'svg',
+					loop: false,
+					autoplay: true,
+					path: 'data_succ.json'
+				})
+				o.innerHTML = 99;
+				a();
+			}
+
+			function returnPath() {
+				document.getElementById('loading').innerHTML = '';
+				animation = bodymovin.loadAnimation({
+					container: document.getElementById('loading'),
+					renderer: 'svg',
+					loop: true,
+					autoplay: true,
+					path: 'data_roop.json'
+				})
+				o.innerHTML = 0;
+				var a = window.setInterval(function() {
+					if(o.innerHTML < 99) {
+						o.innerHTML = parseInt(o.innerHTML) + 1;
+					} else {
+						clearInterval(a)
+					}
+				}, 200)
+				a();
+			}
+		</script>
+		<div id="bottom">
+			<input type="button" id="btn1" name="审核成功" value="审核成功" onclick="changePath()" />
+			<input type="button" id="btn2" name="刷新" value="刷新" onclick="returnPath()" />
+		</div>
+
+	</body>
+
+</html>
